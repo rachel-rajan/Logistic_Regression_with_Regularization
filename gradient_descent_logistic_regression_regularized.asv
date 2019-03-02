@@ -1,0 +1,45 @@
+function [theta, J, h] = gradient_descent_logistic_regression_regularized(x_norm, y, theta, alpha, num_of_iter, lambda )
+%%performs the gradient descent operation for a logistic regression problem for ‘n’ iterations
+%% Inputs
+% theta :includes both theta_0 and so on
+% x_norm: normalized feature vector
+% y: (actual value)
+% alpha : learning rate
+% num_of_iter : Number of iterations
+%?:(Regularization Parameter)
+%%Outpus
+%J : cost at every iteration [Array variable]
+%theta : updated weights
+
+%%
+% computing the length of our actual vlue
+m = length(y);
+
+% Creating a zero matrix to store cost value
+J = zeros(num_of_iter, 1);
+
+% Gradient descent
+for i = 1:num_of_iter 
+
+%for j=1:length(lambda)
+
+%lambda=lambda(j);
+    
+%hypothesis
+h = compute_sigmoid(x_norm*theta);
+
+for j = 1:m
+theta = theta + ( h(i) - y(i) ) * x_norm(i, :)';
+end
+
+theta_reg = lambda/m * [0; theta(2:end)]; 
+
+%updating theta
+gradientWithRegularization = (1/numberOfTrainingExamples) * theta + theta_reg;
+
+% Keeping track of the cost function
+J(i) = compute_cost_logistic_regression_regularized(theta, x_norm, y, lambda);  
+
+end 
+
+end
